@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -20,5 +21,11 @@ public class MessageResources {
 	public List<Message> getMessages(){
 		return messageService.getAllMessages();
 	}
-
+	
+	@GET
+	@Path("/{messageId}")
+	@Produces(MediaType.APPLICATION_XML)
+	public Message getMessage(@PathParam("messageId") Long id){ //Jersey automatically changes it to Long from the String param
+		return messageService.getMessage(id);
+	}
 }

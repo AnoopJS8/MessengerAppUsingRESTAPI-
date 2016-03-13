@@ -17,14 +17,14 @@ public class MessageResources {
 	MessageService messageService=new MessageService();
 	
 	@GET
-	@Produces(MediaType.APPLICATION_XML) //It tells the jersey what content to sent back of the resource. 
+	@Produces(MediaType.APPLICATION_JSON) //It tells the jersey what content to sent back of the resource. 
 	public List<Message> getMessages(){
 		return messageService.getAllMessages();
 	}
 	
 	@GET
 	@Path("/{messageId}")
-	@Produces(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Message getMessage(@PathParam("messageId") Long id){ //Jersey automatically changes it to Long from the String param
 		return messageService.getMessage(id);
 	}

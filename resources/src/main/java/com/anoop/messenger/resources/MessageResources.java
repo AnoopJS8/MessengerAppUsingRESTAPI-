@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -23,7 +24,7 @@ public class MessageResources {
 	public List<Message> getMessages(){
 		return messageService.getAllMessages();
 	}
-	@POST
+	@POST  //POST API used for creating a message
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)//MediaType.APPLICATION_JSON not working for newer postman version so change to text
 	public Message addMessage(Message message){
@@ -31,9 +32,18 @@ public class MessageResources {
 		
 	}
 	
+	@PUT //PUT API used for updating a message
+	@Path("/{messageId}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Message updateMessage(@PathParam("messageId") long id,Message message){
+		message.setId(id);
+		return messageService.updateMessage(message);
+	}
+	
 	
 	@GET
-	@Path("/{messageId}")
+	@Path("/{messageId}")//For getting a particular requested method.
 	@Produces(MediaType.APPLICATION_JSON)
 	public Message getMessage(@PathParam("messageId") Long id){ //Jersey automatically changes it to Long from the String param
 		return messageService.getMessage(id);

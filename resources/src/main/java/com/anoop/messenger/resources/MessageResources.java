@@ -16,18 +16,20 @@ import com.anoop.messenger.resources.model.Message;
 import com.anoop.messenger.resources.service.MessageService;
 
 @Path("/messages")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON) //Instead add in front of class rather than adding for every method
 public class MessageResources {
 	
 	MessageService messageService=new MessageService();
 	
 	@GET
-	@Produces(MediaType.APPLICATION_JSON) //It tells the jersey what content to sent back of the resource. 
+	//@Produces(MediaType.APPLICATION_JSON) //It tells the jersey what content to sent back of the resource. 
 	public List<Message> getMessages(){
 		return messageService.getAllMessages();
 	}
 	@POST  //POST API used for creating a message
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)//MediaType.APPLICATION_JSON not working for newer postman version so change to text
+	//@Consumes(MediaType.APPLICATION_JSON)
+	//@Produces(MediaType.APPLICATION_JSON)//MediaType.APPLICATION_JSON not working for newer postman version so change to text
 	public Message addMessage(Message message){
 		return messageService.addMessage(message);
 		
@@ -35,8 +37,8 @@ public class MessageResources {
 	
 	@PUT //PUT API used for updating a message
 	@Path("/{messageId}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	//@Consumes(MediaType.APPLICATION_JSON)
+	//@Produces(MediaType.APPLICATION_JSON)
 	public Message updateMessage(@PathParam("messageId") long id,Message message){
 		message.setId(id);
 		return messageService.updateMessage(message);
@@ -44,14 +46,14 @@ public class MessageResources {
 	
 	@DELETE
 	@Path("/{messageId}")
-	@Produces(MediaType.APPLICATION_JSON)
+	//@Produces(MediaType.APPLICATION_JSON)
 	public void deleteMessage(@PathParam("messageId") long id){
 		messageService.removeMessage(id);
 	}
 	
 	@GET
 	@Path("/{messageId}")//For getting a particular requested method.
-	@Produces(MediaType.APPLICATION_JSON)
+	//@Produces(MediaType.APPLICATION_JSON)
 	public Message getMessage(@PathParam("messageId") Long id){ //Jersey automatically changes it to Long from the String param
 		return messageService.getMessage(id);
 	}

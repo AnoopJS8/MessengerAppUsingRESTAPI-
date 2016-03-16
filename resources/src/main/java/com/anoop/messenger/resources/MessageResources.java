@@ -3,6 +3,7 @@ package com.anoop.messenger.resources;
 import java.util.List;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -21,6 +22,12 @@ public class MessageResources {
 	public List<Message> getMessages(){
 		return messageService.getAllMessages();
 	}
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)//MediaType.APPLICATION_JSON not working for newer postman version so change to text
+	public String addMessage(){
+		return "POST Works!!";
+	}
+	
 	
 	@GET
 	@Path("/{messageId}")

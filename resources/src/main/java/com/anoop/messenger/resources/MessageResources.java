@@ -25,9 +25,13 @@ public class MessageResources {
 	
 	@GET
 	//@Produces(MediaType.APPLICATION_JSON) //It tells the jersey what content to sent back of the resource. 
-	public List<Message> getMessages(@QueryParam("year") int year){
-		if(year>0){
+	public List<Message> getMessages(@QueryParam("year") int year,@QueryParam("start") int start
+															,@QueryParam("size") int size){
+		if(year>0){//if we dont pass anything in year it will come as 0
 			return messageService.getAllMessagesForYear(year);
+		}
+		if(start>0 || size >0){
+			return messageService.getAllMessagesPaginated(start, size);
 		}
 		return messageService.getAllMessages();
 	}

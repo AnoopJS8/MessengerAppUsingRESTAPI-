@@ -2,6 +2,7 @@ package com.anoop.messenger.resources;
 
 import java.util.List;
 
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -13,6 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.anoop.messenger.resources.beans.MessageFilterBean;
 import com.anoop.messenger.resources.model.Message;
 import com.anoop.messenger.resources.service.MessageService;
 
@@ -25,13 +27,14 @@ public class MessageResources {
 	
 	@GET
 	//@Produces(MediaType.APPLICATION_JSON) //It tells the jersey what content to sent back of the resource. 
-	public List<Message> getMessages(@QueryParam("year") int year,@QueryParam("start") int start
-															,@QueryParam("size") int size){
-		if(year>0){//if we dont pass anything in year it will come as 0
-			return messageService.getAllMessagesForYear(year);
+	/*
+*/
+	public List<Message> getMessages(@BeanParam MessageFilterBean filterBean){
+		if(filterBean.getYear()>0){//if we dont pass anything in year it will come as 0
+			return messageService.getAllMessagesForYear(filterBean.getYear());
 		}
-		if(start>0 || size >0){
-			return messageService.getAllMessagesPaginated(start, size);
+		if(filterBean.getStart()>0 || filterBean.getSize() >0){
+			return messageService.getAllMessagesPaginated(filterBean.getStart(), filterBean.getSize());
 		}
 		return messageService.getAllMessages();
 	}
@@ -64,5 +67,11 @@ public class MessageResources {
 	//@Produces(MediaType.APPLICATION_JSON)
 	public Message getMessage(@PathParam("messageId") Long id){ //Jersey automatically changes it to Long from the String param
 		return messageService.getMessage(id);
+	}
+	
+	@Path("/{message}/comments")
+	public CommentResource getCommentResource(){
+		
+		return new CommentResource();
 	}
 }
